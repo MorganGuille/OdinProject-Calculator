@@ -73,8 +73,16 @@ button{
     height: 80px;
     width: 80px;
     border-radius: 10px;
+    background-color: aliceblue;
+    font-size: 40px;
+}
+.operatorButton{
+    background-color: rgb(248, 174, 36);
 }
 
-.equalsButton{
-    width: 180px;
+#equalsButton{
+    width: 170px;
+}
+button:hover{
+    background-color: white
 }

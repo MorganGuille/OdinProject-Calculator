@@ -1,44 +1,119 @@
-function add(array) {
-    return array.reduce((a,b) => a + b)
-      
-  };
-  
-function subtract(array) {
-    return array.reduce((a,b) => a - b)
-      
-};
 
-function multiply(array) {
-    return array.reduce((a,b) => a * b);
-  
-};
+// declare number Variables
+let operator = '';
+let firstNumber = '';
+let secondNumber = '';
 
-function divide(array) {
-    return array.reduce((a,b) => a / b);
-  
-};
+// select HTML elements and assign variables
 
-let operator = 'add';
-let firstNumber = '1';
-let secondNumber = '2';
+let screen = document.getElementById('screenText')
 
-function operate(operator, firstNumber, secondNumber){
-    if (operator == 'add'){
-        return add(firstNumber, secondNumber)
-    } 
-    else if (operator == 'subtract'){
-        return subtract(firstNumber, secondNumber)
-    }
-    else if (operator == 'multiply'){
-        return multiply(firstNumber, secondNumber)
-    }
-    else if (operator == 'divide'){
-        return divide(firstNumber, secondNumber)
-    }}
+let numberButtons = document.querySelectorAll(".numberButton")
+let operatorButtons = document.querySelectorAll(".operatorButton")
+let equalsButton = document.getElementById("equalsButton")
+let allClearButton = document.getElementById('allClearButton')
+// let clearButton = document.getElementById('clearButton')
+// let decimalButton = document.getElementById('decimalButton')
+
+// add 'click' listeners to number and operator buttons
+
+numberButtons.forEach((button) => button.addEventListener('click', function(e){
+    addNumber(e.target.textContent)
+    screen.textContent = `${secondNumber}${operator}${firstNumber}`
+}))
+
+operatorButtons.forEach((button) => button.addEventListener('click', function(e){
+    addOperator(e.target.textContent)
+    screen.textContent = `${secondNumber}${operator}${firstNumber}`
+}))
+
+// add activators to buttons
+
+equalsButton.addEventListener('click', calculate) 
+
+allClearButton.addEventListener('click', allClear)
+
+// display clicked number and store it as 'firstNumber'
+
+function addNumber(num){
+    firstNumber += num;
+    console.log(num)
+}
+
+// display clicked operator and store it as 'operator', also reassign 'firstNumber' to
+// 'secondNumber'. If previous operator detected, run 'Operate' first
+
+function addOperator(op){
     
-console.log(operate('add', [1, 2]))
+    if (secondNumber != ''){
+        operate()
+        console.log('shunted')
+        screen.textContent = Math.round(secondNumber*100)/100
+        firstNumber = secondNumber
+    }
+    operator = op;
+    secondNumber = firstNumber;
+    firstNumber = ''
+    console.log(operator)
+}
 
+// activate calculate function
 
+function calculate(){
+    console.log('calculate')
+    if(operator == ''){
+        screen.textContent = 'ERROR'
+        console.log('ERROR')
+    }
+    else{
+    operate()
+    screen.textContent = ''
+    screen.textContent = Math.round(secondNumber*100)/100
+    firstNumber = secondNumber
+    secondNumber = ''
+    operator = ''}
+}
 
-let screen = document.getElementById('screenText').innerHTML = (operate('divide', [3, 2]))
+// fuction to conduct calculations
 
+function operate(){
+
+    firstNumber = Number(firstNumber);
+    secondNumber =Number(secondNumber)
+
+    if (operator == '+'){
+        secondNumber += firstNumber;
+    } 
+    else if (operator == '-'){
+        secondNumber -= firstNumber
+    }
+    else if (operator == 'x'){
+        secondNumber *= firstNumber
+    }
+    else if (operator == '÷'){
+        secondNumber /= firstNumber
+    }
+    else if (operator == '^'){
+        secondNumber **= firstNumber
+    }
+    else return "Error"
+    
+    console.log(operator)
+    console.log(firstNumber)
+    console.log(secondNumber)
+
+}
+
+// function to clear all
+
+function allClear(){
+    operator = '';
+    firstNumber = '';
+    secondNumber = '';
+    screen.textContent = ''
+    console.log('allClear')
+}
+
+// Debuging
+console.log(firstNumber)
+console.log(secondNumber)
